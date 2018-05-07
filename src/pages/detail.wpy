@@ -1,0 +1,177 @@
+<style lang="less">
+page{
+    padding-bottom:4rem;
+}
+</style>
+<template>
+    <view class="container" wx:if="{{onShow}}">
+        <view class="fixFooter">
+            <view class="actionBar">
+                <view class="home" id="home" @tap="goLink">
+                    <button  class="homeIco" ></button>
+                    <text>首页</text>
+                </view>
+                <view class="support" id="support">
+                    <button open-type="contact" class="supportIco"></button>
+                    <text>客服</text>
+                </view>
+                <view class="addfav {{addfav ? 'ative' : ''}}" id="addfav">
+                    <button open-type="" class="{{addfav ? 'addfavIco_ative' : 'addfavIco'}}" @tap="addfav()"></button>
+                    <text>收藏</text>
+                </view>
+                
+                <view class="trade">
+                    <view class="addCart">加入购物车</view>
+                </view>
+            </view>
+        </view>
+        <view  class="swiperGallery">
+            <view class="galSize">{{swiper.current}}/{{swiper.gallerySize}}</view>
+            <swiper indicator-dots="{{swiper.dots}}" autoplay="{{swiper.autoplay}}" interval="5000" duration="500" bindchange="cur" >
+                <block wx:for="{{detail.gallery}}" wx:key="{{index}}">
+                    <swiper-item>
+                        <image src="{{server.imageUrl}}{{item.img_URL}}" mode="aspectFill" @tap="previewImage"/>                        
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+  <view class="detailInfo">
+    <view class="row">
+      <view class="price">￥{{detail.info[0].shop_price}}</view>
+      <view class="name">{{detail.info[0].goods_name}}<text wx:if="{{onShareAct > 0}}">【分享返回】</text></view>
+      <view class="brief">{{detail.info[0].goods_brief}}</view>
+    </view>
+    <view class="row">
+      <view class="attr">
+        <view class="number">
+          库存：{{detail.info[0].goods_number}}
+        </view>
+        <view class="sn">
+          商品编号：{{detail.info[0].goods_sn}}
+        </view>
+      </view>
+    </view>
+    <view class="row">
+        <view class="label">图文详情：</view>
+        <view class="intro">
+            12312312312312
+        </view>
+    </view>
+  </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import commonJS from '../common.js'
+
+
+  export default class detail extends wepy.page {
+    config = {
+      enablePullDownRefresh:false,
+    }
+    components = {
+    }
+
+    mixins = []
+
+    data={
+        addfav:0,
+      onShareAct:0,
+      onShow:0,
+      pageTit:"商品详情",
+      swiper:{
+        gallerySize:0,
+        current:1,
+        autoplay:false,
+        dots:false
+      },
+      server:{},
+      detail:{}
+    }
+    computed = {
+
+    }
+
+    methods = {
+        addfav(){   //商品收藏
+            let ative = this.addfav;
+            let addTrue =1;
+            let addText = "收藏成功";
+            let info = "success";
+            if(ative){
+                addTrue = 0;
+                addText = "取消收藏";
+                info = "none";
+            }else{
+            }
+            commonJS.wxApi.toast(addText,info)
+            this.addfav = addTrue;
+            this.$apply();
+        },
+        cur(e){
+            this.swiper.current = e.detail.current + 1;
+        },
+        previewImage(imgurl,indexurl){
+            let self = this;
+            var Images = self.detail.gallery.map((item)=>{
+                return self.server.imageUrl+item.img_URL
+            })
+            let curr= Images[self.swiper.current-1];
+            console.log("current：",curr,"\nurls：",Images);
+            wx.previewImage({
+                current: curr,
+                urls: Images
+            })
+        },
+      BarAct(id){
+        let self = this;
+        if(id==="share"){
+            let title = self.detail.info[0].goods_name
+            let url = getCurrentPages();
+            url = url[0].route
+            console.log("title:",title,"url:",url)
+            self.onShareAppMessage(title,url);
+        }
+      },
+      onShareAppMessage(res) {
+            //分享页面
+            let tit = this.detail.info[0].goods_name;
+            let id = this.detail.info[0].goods_sn;
+            let url =  "/pages/detail?id=" + id +"&page=share";
+            commonJS.wxApi.onShare(tit,url);
+            console.log(res);
+      },
+      goLink(e){
+          let url = "/pages/index";
+          commonJS.wxApi.goTopage(url,"redirect");
+      }
+    }
+    events = {
+    }
+   onShow(){
+
+   }
+    
+    onShow(option){
+        console.log(option.page);
+    }
+    onLoad(option) {
+      wx.showLoading({title: '加载中'})
+      let self = this;
+      let globalData = self.$parent.globalData;
+      let promiseData = self.$parent.getPromiseData;
+      self.server = globalData.serUrl;
+      let res = promiseData(self.server.url + "/detail/"+ option.id +"/");
+      res.then((data)=>{
+        commonJS.wxApi.setTitle(self.pageTit);
+        self.detail = data;
+        self.swiper.gallerySize = self.detail.gallery.length;
+        self.onShow = 1;        
+        self.$apply();
+       
+        wx.hideLoading();
+      })
+    }
+  }
+</script>

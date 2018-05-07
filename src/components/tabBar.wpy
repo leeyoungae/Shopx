@@ -1,0 +1,70 @@
+<style lang="less">
+  .naviBar{
+      box-shadow: 0px -1px 4px #e9e9e9;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding:0.5rem 0rem;
+      font-size: 12px;
+      text-align: center;
+    }
+    .naviBar  .icon{
+      background-position: center;
+      background-repeat:no-repeat;
+      width: 50px;
+      height: 35px;
+      background-size:48%;
+    }
+</style>
+<template>
+  <view class="naviBar fixFooter">
+        <view wx:for="{{naviBar}}" wx:key="{{index}}" class="item" @tap="onNaviBar" id="{{item.icon}}">
+          <view class="icon {{naviCurrent == item.icon ? item.icon+'_atvi' : item.icon}}"></view>
+        </view>
+      </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import commonJS from '../common.js'
+
+  export default class tabBar extends wepy.component {
+    data = {
+      naviCurrent:"index",
+      naviBar:[
+        {"id":1,text:"首页",icon:"index",url:"index"},
+        {"id":2,text:"分类",icon:"type",url:"type"},
+        {"id":3,text:"购物车",icon:"cart",url:"cart"},
+        {"id":4,text:"我",icon:"me",url:"me"}
+      ]
+    }
+    props = {
+    }
+    events = {
+    }
+
+    methods = {
+      onNaviBar(e){
+        let id = e.currentTarget.id;        
+        if(id === this.naviCurrent){
+        }else{
+          this.naviCurrent = id;
+          commonJS.wxApi.goTopage("/pages/"+id);
+        }
+      },
+      invokeCom(val){
+        console.log(val);
+         this.naviCurrent = val;
+         this.$apply();
+      }
+    }
+    onLoad () {
+      let self = this;
+      let pages = commonJS.wxApi.getPages();
+      if(pages){
+        self.naviCurrent = pages;
+        self.$apply();
+      }
+    }
+  }
+</script>

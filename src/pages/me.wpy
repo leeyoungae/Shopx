@@ -1,0 +1,172 @@
+<style lang="less">
+    .userInfo{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .userInfo .face{
+        width: 50%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .userInfo .face .attr >view {
+        line-height: 52rpx;
+    }
+    @faceSize: 120rpx;
+    .userInfo .face image{
+        width: @faceSize;
+        height: @faceSize;
+        border-radius:@faceSize;
+        margin-right:30rpx;
+    }
+
+    .logout button{
+        font-size: 14px;
+        border-radius: 30rpx;
+        padding:0rpx 26rpx;
+        line-height: 56rpx;
+        background: #f2f2f2;
+    }
+    .userToolBar{
+        margin-top:1.5rem;
+        padding-top:1.3rem;
+        border-top:1px solid #f2f2f2;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .userToolBar >view {
+        display: flex;
+        flex-direction:column;
+        align-items: center;
+        font-size: 15px;
+        line-height: 52rpx;
+    }
+    .userToolBar .icon{
+        width: 50rpx;
+        height: 50rpx;
+        background-size:100%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .listItem{
+        padding:0.3rem 1rem;
+    }
+    .listItem  .item .icon{
+        height: 50rpx;
+        width: 50rpx;
+        background-size:100%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .listItem  .item .title .icon{
+        margin-right: 30rpx;
+        opacity: 0.4;
+    }
+    .listItem  .item{
+        padding:0.8rem 0;
+        border-bottom:1px solid #f2f2f2;
+    }
+    .listItem  .item:last-child{
+        border: none;
+    }
+</style>
+<template>
+    <view class="container">
+        <tabBar></tabBar>
+        <view class="block">
+            <view class="userInfo">
+                <view class="face">
+                    <image src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+                    <view class="attr">
+                        <view class="name">{{userInfo.nickName}}</view>
+                        <view class="uid">ID：{{userInfo.id}}</view>
+                    </view>
+                </view>
+                <view class="logout">
+                    <button>退出登录</button>
+                </view>
+            </view>
+            <view class="userToolBar">
+                <view class="item" wx:for="{{toolBar}}" wx:key="{{index}}">
+                    <view class="icon {{item.icon}}_Ico"></view>
+                    <view>{{item.text}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="block aboutCo listItem">
+            <view wx:for="{{about}}" wx:key="{{index}}" class="item dis_flex_between">                
+                <view class="title dis_flex">
+                    <view class="icon {{item.icon}}_Ico"></view>
+                    {{item.text}}
+                </view>
+                <view class="icon right_Ico"></view>
+            </view>
+        </view>
+    </view>
+  
+</template>
+
+<script>
+import wepy from "wepy";
+import tabBar from "../components/tabBar";
+import commonJS from '../common.js'
+
+export default class me extends wepy.page {
+    config = {
+        navigationBarTitleText: "我的",
+        enablePullDownRefresh:false
+    };
+    components = {
+        tabBar:tabBar
+    };
+    mixins = [];
+    data = {
+        userInfo:[],
+        server: {},
+        toolBar:[
+            {"id":1,"text":"收藏","id":"addFave","icon":"addFave"},
+            {"id":2,"text":"待付款","id":"Pending","icon":"Pending"},
+            {"id":3,"text":"已完成","id":"Paid","icon":"Paid"},
+            {"id":4,"text":"全部订单","id":"allOrder","icon":"allOrder"},
+        ],
+        about:[
+            {"id":1,"text":"关于我们","id":"about","icon":"about"},
+            {"id":2,"text":"联系我们","id":"relation","icon":"relation"}
+        ],
+    };
+    computed = {
+    };
+    methods = {
+    };
+    events = {};
+
+    async onLoad() {  
+        let self = this;
+        let globalData = self.$parent.globalData;
+        self.server = globalData.serUrl;
+
+        let auth = await commonJS.wxApi.getSetting();
+        let userInfo = wx.getStorageSync("ifx_baas_userinfo");
+        self.userInfo = userInfo;
+        self.$apply();
+
+
+        if(!auth["scope.userInfo"]){
+            wx.showModal({
+                title: '',
+                content: '检测到您未打开微信用户信息授权，开启后即可进行登录',
+                confirmText: "去开启",
+                success: function (res) {
+                    if (res.confirm) {
+                    console.log('用户点击确定')
+                    } else if (res.cancel) {
+                    console.log('用户点击取消')
+                    }
+                }
+            })     
+        }
+    }
+}
+</script>

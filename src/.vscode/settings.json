@@ -1,0 +1,7 @@
+{
+    "editor.tabSize": 4,
+    "editor.wrappingIndent": "indent",
+    "html.format.indentInnerHtml": true,
+    "vetur.format.scriptInitialIndent": true,
+    "vetur.format.styleInitialIndent": true
+}

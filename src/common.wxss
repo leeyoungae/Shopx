@@ -1,0 +1,363 @@
+/*icon start*/
+  .icon{
+    background-size:100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .atNew{
+    background: url("http://shop.sunsons.hk/images/svg/new.svg");
+  }
+  .atYou{
+    background: url("http://shop.sunsons.hk/images/svg/you.svg");
+  }
+  .atBao{
+    background: url("http://shop.sunsons.hk/images/svg/bao.svg");
+  }
+  .at123{
+    background: url("http://shop.sunsons.hk/images/svg/123.svg");
+  }
+
+  .index{
+    background: url("http://shop.sunsons.hk/images/svg/index.svg");
+  }
+   .index_atvi{
+    background: url("http://shop.sunsons.hk/images/svg/index_atvi.svg");
+  }
+  .type{
+    background: url("http://shop.sunsons.hk/images/svg/type.svg");
+  }
+  .type_atvi{
+    background: url("http://shop.sunsons.hk/images/svg/type_atvi.svg");
+  }
+  .cart{
+    background: url("http://shop.sunsons.hk/images/svg/cart.svg");
+  }
+  .cart_atvi{
+    background: url("http://shop.sunsons.hk/images/svg/cart_atvi.svg");
+  }
+  .me{
+    background: url("http://shop.sunsons.hk/images/svg/me.svg");
+  }
+  .me_atvi{
+    background: url("http://shop.sunsons.hk/images/svg/me_atvi.svg");
+  }
+  .addFave_Ico{
+    background: url("http://shop.sunsons.hk/images/svg/addFave2.svg");
+  }
+  .Pending_Ico{
+    background: url("http://shop.sunsons.hk/images/svg/Pending.svg");
+  }
+  .Paid_Ico{
+    background: url("http://shop.sunsons.hk/images/svg/Paid.svg");
+  }
+  .allOrder_Ico{
+    background: url("http://shop.sunsons.hk/images/svg/allOrder.svg");
+  }
+   .relation_Ico{
+    background: url("http://shop.sunsons.hk/images/svg/kf.svg");
+  }
+   .about_Ico{
+    background: url("http://shop.sunsons.hk/images/svg/about.svg");
+  }
+  .right_Ico{
+    background: url("http://shop.sunsons.hk/images/svg/right.svg");
+    opacity: 0.4;
+  }
+
+/*icon end*/
+
+
+button{
+  border-radius: 0;
+  margin:0px;
+}
+button::after {
+  border: none;
+}
+ image{
+    width: 100%;
+  }
+.page_hd{
+  padding: 0rem;
+  background:#fff;
+}
+  .fexheader{
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    z-index:990;
+  }
+  .topHeader{
+    background:#fabf3a;
+    color:#fff;
+  }
+
+
+.overFlowText{
+  display: -webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+swiper{
+  min-height:180px;
+}
+.dis_flex{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.dis_flex_col{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.dis_flex_between{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.block{
+  background: #fff;
+  margin:0rem 0 0.3rem;
+  padding:0.8rem;
+}
+.block_tit{
+  display: block;
+  text-align: center;
+  font-weight:bold;
+  padding:0.3rem 0;
+  font-size:18px;
+}
+.banner2{
+  height: 180px;
+  overflow: hidden;
+}
+
+.quick-nav-box{
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+@iconsh:50px;
+.quick-nav-box .navItem{
+  width: 25%;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  font-size: 14px;
+}
+.quick-nav-box .icon{
+  height:@iconsh;
+  width:@iconsh;
+  // border:1px solid #999;
+  border-radius:3rem;
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.6;
+  margin-bottom:13rpx;
+}
+
+.isBest{
+  display: flex;
+  flex-wrap:wrap-reverse;
+  justify-content: space-around;
+}
+.isBest .bestItem{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 33.33%;
+}
+.isBest .bestItem image{
+  display: block;
+  width:100%;
+  height:160rpx;
+}
+.isBest .bestItem .info{
+  font-size:14px;
+  color:#666;
+  text-align: center;
+}
+.isBest .bestItem .price{
+  text-align:left;
+  color:#f3686f;
+  line-height:48rpx;
+}
+
+
+
+.tpl_wrapper_1 .Item{
+  display: flex;
+  justify-content: space-between ;
+  align-items:center;
+  border-bottom:1px solid #f2f2f2;
+}
+.tpl_wrapper_1 .Item .imgWall{
+  width:45%;
+}
+.tpl_wrapper_1 .Item .imgWall image{
+  width:100%;
+  height:300rpx;
+}
+.tpl_wrapper_1 .Item .info{
+  width: 50%;
+}
+.tpl_wrapper_1 .Item .info .line-1{
+  font-size:38rpx;
+}
+.tpl_wrapper_1 .Item .info .line-2{
+  color:#999;
+  font-size:28rpx;
+  margin:0.3rem 0;
+}
+.tpl_wrapper_1 .Item .info .price{
+  color:#f3686f;
+  font-size: 40rpx;
+  padding:0.8rem 0;
+}
+.tpl_wrapper_1 .Item .info .onViewBtn button{
+  display: inline-block;
+  line-height:68rpx;
+  text-align: center;
+  font-size:15px;
+  background:#FAbf3a;
+  color:#fff;
+}
+
+
+
+ 
+  .swiperGallery{
+    position: relative;
+    background:#fff;
+  }
+  .swiperGallery swiper{
+    height:380px;
+    background: #f2f2f2;
+    border-bottom:1px solid #f2f2f2;
+  }
+  .galSize{
+    position: absolute;
+    right:20rpx;
+    bottom: 20rpx;
+    font-size: 14px;
+    color:#666;
+    background:#e2e2e2;
+    padding:0rem 0.2rem;
+    z-index: 2;
+  }
+  .swiperGallery image{
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .detailInfo{
+    background:#fff;
+    padding:0.3rem 38rpx;
+  }
+  .detailInfo .row > view{
+    padding-bottom:0.3rem;
+  }
+  .detailInfo .row{
+    padding:0.8rem 0;
+    border-bottom:1px solid #f2f2f2;
+  }
+  .detailInfo .row:last-child{
+    border:none;
+  }
+  .detailInfo .price{
+    font-size:1.6rem;
+    color:#f3683f;
+  }
+  .detailInfo .name{
+    font-size:1.3rem;
+  }
+  .detailInfo .brief{
+    color:#999;
+  }
+  .detailInfo .attr{
+    display: flex;
+    justify-content:space-around;
+    align-content:flex-start;
+  }
+  .detailInfo .attr > view{
+    width:50%;
+  }
+  .fixFooter{
+    //   box-shadow: 0px -1px 3px #eaeaea; 
+      position: fixed;
+      left:0;
+      bottom: 0;
+      right: 0;
+  }
+  .actionBar{
+      border-top:1px solid #f5f5f5;
+    z-index: 3;
+      padding:0.6rem 0.5rem;
+      background: #fff;
+      display: flex;
+      justify-content:space-between;
+      align-items: center;
+  }
+  .actionBar > view{
+        width: 15%;
+        text-align: center;
+        display: flex;
+        flex-direction:column;
+        align-items: center;
+        font-size:12px;
+        color:#666;
+  }
+  .actionBar > .trade{
+      width:40%;
+      padding:0 0.5rem;
+      text-align: center;
+      display: flex;
+      justify-content:center;
+  }
+  .actionBar > .trade >view{
+      width: 100%;
+      padding:0.6rem 0;
+      color:#fff;
+  }
+  .actionBar .trade .addCart{
+      background:#fabf3a;
+      border-radius:5rpx;
+      box-shadow: 0 4px 8px #ffeecc;
+      font-size: 16px;
+  }
+  .actionBar button{
+    height:22px;
+    background-size:80%;
+    line-height: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity:0.6;
+    margin-bottom:0.1rem;
+  }
+  .homeIco{
+    background:url("http://shop.sunsons.hk/images/svg/home.svg");
+  }
+  .shareIco{
+    background:url("http://shop.sunsons.hk/images/svg/share.svg");
+  }
+  .supportIco{
+    background:url("http://shop.sunsons.hk/images/svg/support.svg");
+  }
+  .addfavIco{
+    background:url("http://shop.sunsons.hk/images/svg/addfav.svg");
+  }
+  .addfavIco_ative{
+    background:url("http://shop.sunsons.hk/images/svg/addfav_ativ.png");
+  }
+  .ative button{
+      opacity: 1;
+  }
+  .ative > text{
+      color: #fabf3a;
+  }

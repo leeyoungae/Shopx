@@ -1,0 +1,139 @@
+<style lang="less">
+    
+</style>
+<template>
+    <view class="container">
+        <IndexTop :indexFun.sync='resIndexTop'></IndexTop>
+    <view class="block">
+        <view class="quick-nav-box">
+            <view wx:for="{{quickNav}}" wx:key="{{index}}" class="navItem">
+                <view class="icon at{{item.icon}}"></view>
+                {{item.text}}
+            </view>
+      </view>
+    </view>
+    
+    <view class="block">
+      <view class="block_tit">精选</view>     
+      <view class="isBest">
+        <view class="bestItem" wx:for="{{indexFun.isbest}}" wx:key="{{index}}" bindtap="onView({{item.goods_sn}})">
+          <image src="http://shop.sunsons.hk/{{item.goods_img}}" mode="aspectFit"/>
+          <view class="info overFlowText">
+            <view class="line-1">{{item.goods_name}}</view>
+            <view class="price">￥{{item.shop_price}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="banner2" wx:if="{{indexFun.banner2}}">
+        <image src="{{server.imageUrl}}data/attached/afficheimg/{{indexFun.banner2[0].ad_code}}" mode="widthFix"/>
+    </view> -->
+    <view class="block isNew tpl_wrapper_1">
+      <view class="Item" wx:for="{{indexFun.isnew}}" wx:key="{{index}}" bindtap="onView({{item.goods_sn}})">
+        <view class="imgWall">
+          <image src="http://shop.sunsons.hk/{{item.goods_img}}" mode="aspectFill"/>
+        </view>
+        <view class="info">
+          <view class="line-1 overFlowText">{{item.goods_name}}</view>
+          <view class="line-2 overFlowText">{{item.goods_brief}}</view>
+          <view class="price">￥{{item.shop_price}}</view>
+          <!-- <view class="onViewBtn">
+            <button>查看商品</button>
+          </view> -->
+        </view>
+      </view>
+    </view>
+  </view>
+  <tabBar></tabBar>
+</template>
+
+<script>
+import wepy from "wepy";
+import IndexTop from "../components/IndexTop";
+import tabBar from "../components/tabBar";
+import commonJS from '../common.js'
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "贝贝熊商城"
+  };
+  components = {
+    IndexTop: IndexTop,
+    tabBar:tabBar
+  };
+
+  mixins = [];
+
+  data = {    
+    quickNav:[
+        {id:"1",text:"全场上新",icon:"New"},
+        {id:"2",text:"优品推荐",icon:"You"},
+        {id:"3",text:"热卖爆款",icon:"Bao"},
+        {id:"4",text:"限量抢购",icon:"123"}
+    ],
+    loadata: 0,
+    indexFun: {},
+    server: {}
+  };
+  computed = {
+    resIndexTop() {
+      return this.indexFun.indexPageTop;
+    }
+  };
+
+  methods = {
+    onView(id) {
+      let good_ID = id;
+      wx.navigateTo({
+        url: "detail?id=" + good_ID
+      });
+    }
+  };
+
+  events = {};
+  getPromiseData(sUrl) {
+    return new Promise(function(resolve, reject) {
+      wx.request({
+        url: sUrl,
+        success: function(res) {
+          resolve(res.data);
+        }
+      });
+    });
+  }
+  onPullDownRefresh() {
+    let self = this;
+    self.loadFun();
+  }
+
+  loadFun() {
+    let self = this;
+    wx.showLoading({
+      title: "加载中"
+    });
+    
+    self.loadata = 0;
+    let resState = 0;
+    let resIndexSPA = self.getPromiseData(self.server.url + "/Fun/indexFun");
+    resIndexSPA.then(data => {
+      self.indexFun = data;
+      self.loadata = 1;
+      self.$apply();
+      wx.stopPullDownRefresh();
+      wx.hideLoading();
+    });
+  }
+  
+  onLoad() {
+    let self = this;
+    let globalData = self.$parent.globalData;
+    self.server = globalData.serUrl;
+    self.loadFun();
+
+    var sett = commonJS.wxApi.getSetting();
+    sett.then((data)=>{
+         console.log(data)
+    })
+  }
+}
+</script>

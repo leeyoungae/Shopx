@@ -1,0 +1,95 @@
+<style lang="less">
+.SearchBtn{
+  background:#f5f5f5;
+  text-align: left;
+  border:none;
+  margin: 0 1rem;
+  padding:0.5rem 0.8rem;
+  font-size:14px;
+  border-radius:3px;
+}
+.scorllAd{
+}
+.scorllAd swiper-item image{
+  width: 100%;
+}
+.IndexCategory{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:0 1rem;
+}
+.IndexCategory .category_Item{
+display: block;
+  text-align: center;
+  padding:0.5rem 0;
+  // margin: 0.3rem 0;
+  color:#666;
+  border-bottom:3px solid #fff;
+  font-size:14px;
+}
+@Current:#111;
+.IndexCategory .Current {
+  border-bottom:3px solid @Current;
+  color:@Current;
+}
+</style>
+<template>
+  <view class="page_hd fexheader" id="page_hd">
+    <input bindtap="goSearch()" class="SearchBtn" placeholder="搜索商品"/>
+    <view class="IndexCategory">
+      <block wx:for="{{indexFun.catList}}" wx:key="id">
+        <view class="category_Item {{Current == index ? 'Current':'' }}"  @tap="itemCurrent" id="{{index}}">
+            {{item.cat_name}}
+        </view>
+      </block>
+    </view>
+  </view>
+  <!-- 通栏广告 -->
+  <view class="scorllAd" style="margin-top:{{phd}}px">
+    <swiper indicator-dots="{{indexFun.scorllAd}}"
+      autoplay="{{indexFun.autoplay}}" interval="{{indexFun.interval}}" duration="{{indexFun.duration}}">
+      <block wx:for="{{indexFun.scorllAd}}" wx:key="index">
+        <swiper-item>
+          <image src="http://shop.sunsons.hk/data/attached/afficheimg/{{item.ad_code}}" class="slide-image" mode="widthFix"/>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+</template>
+<script>
+  import wepy from 'wepy'
+  import commonJS from '../common.js'
+
+  export default class IndexTop extends wepy.component {
+    data = {
+      Current:0,
+      phd:""
+    }
+    props = {
+      indexFun:[]
+    }
+    events = {
+    }
+
+    methods = {
+      itemCurrent(e){
+        this.Current= e.currentTarget.id;
+      }
+    }
+    onShow(){
+      
+    }
+    onLoad () {
+      let hd = commonJS.wxApi.getHeight("#page_hd");
+      let self = this;
+      hd.then(function(data){
+        let phd = data[0].height * 2;
+        self.phd = phd;
+        self.$apply();
+      })
+      
+    }
+  }
+</script>
